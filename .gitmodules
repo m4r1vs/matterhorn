@@ -3,4 +3,4 @@
 	url = git@github.com:matterhorn-chat/mattermost-api-qc.git
 [submodule "submodules/mattermost-api"]
 	path = submodules/mattermost-api
-	url = git@github.com:matterhorn-chat/mattermost-api.git
+	url = git@github.com:m4r1vs/mattermost-api.git
