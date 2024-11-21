@@ -5,6 +5,11 @@
 
 set -e
 
-HERE=$(cd `dirname $0`; pwd)
+HERE=$(
+  cd $(dirname $0)
+  pwd
+)
 cd $HERE
-cabal new-build -j --enable-tests
+cabal new-build --ghc-option=-dynamic
+
+# cabal new-build -j --enable-shared --enable-executable-dynamic --ghc-options=-dynamic
