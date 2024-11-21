@@ -45,23 +45,22 @@ enterHandler msg (mine, e) = do
             return True
 
 fetchResults :: UserId
-             -- ^ My user ID, so we can see which reactions I haven't
-             -- posted
              -> Message
-             -- ^ The selected message, so we can include its current
-             -- reactions in the list
              -> EmojiCollection
-             -- ^ The emoji collection
              -> ()
-             -- ^ The scope to search
              -> Session
-             -- ^ The connection session
              -> Text
-             -- ^ The search string
              -> IO (Vec.Vector (Bool, T.Text))
 fetchResults myId msg em () session searchString = do
-    let currentReactions = [ (myId `Set.member` uIds, k)
+    let thumbsUpEmoji = "+1"
+        -- Check if current user has thumbs up reaction
+        hasThumbsUp = maybe False (Set.member myId) $ M.lookup thumbsUpEmoji (msg^.mReactions)
+        -- Create thumbs up entry
+        thumbsUpEntry = [(hasThumbsUp, thumbsUpEmoji)]
+
+        currentReactions = [ (myId `Set.member` uIds, k)
                            | (k, uIds) <- M.toList (msg^.mReactions)
+                           , k /= thumbsUpEmoji  -- Exclude thumbs up from regular reactions since we add it separately
                            ]
         matchingCurrentOtherReactions = [ (mine, r) | (mine, r) <- currentReactions
                                         , matchesEmoji searchString r
@@ -72,8 +71,10 @@ fetchResults myId msg em () session searchString = do
                                      , mine
                                      ]
     serverMatches <- getMatchingEmoji session em searchString
+
+    -- Combine results with thumbs up always first, then remove duplicates
     return $ Vec.fromList $ nubBy ((==) `on` snd) $
-        matchingCurrentOtherReactions <> matchingCurrentMyReactions <> ((False,) <$> serverMatches)
+        thumbsUpEntry <> matchingCurrentOtherReactions <> matchingCurrentMyReactions <> ((False,) <$> serverMatches)
 
 -- | Move the selection up in the emoji list window by one emoji.
 reactionEmojiListSelectUp :: TeamId -> MH ()
