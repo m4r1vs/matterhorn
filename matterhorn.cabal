@@ -1,5 +1,5 @@
 name:                matterhorn
-version:             90000.0.1
+version:             90000.1.0
 synopsis:            Terminal client for the Mattermost chat system
 description:         This is a terminal client for the Mattermost chat
                      system. Please see the README for a list of
@@ -184,9 +184,9 @@ library
                      , config-ini           >= 0.2.2.0 && < 0.3
                      , process              >= 1.4     && < 1.7
                      , microlens-platform   >= 0.3     && < 0.5
-                     , brick                >= 2.4     && < 2.5
+                     , brick                >= 2.8.3   && < 2.9
                      , brick-skylighting    >= 1.0     && < 1.1
-                     , vty                  >= 6.0     && < 6.3
+                     , vty                  >= 6.4     && < 6.5
                      , vty-crossplatform    >= 0.2.0.0 && < 0.5.0.0
                      , word-wrap            >= 0.4.0   && < 0.5
                      , transformers         >= 0.4     && < 0.7

@@ -78,6 +78,26 @@ typical XDG configuration directories (you'll probably want to use
 `$HOME/.config/matterhorn/config.ini`) and as a last resort look for a
 globally-accessible `/etc/matterhorn/config.ini`.
 
+## Configuring Wide Unicode Characters
+
+Some wide Unicode characters may not render correctly in some terminal
+emulators. If this is the case, you can configure Matterhorn to use the
+proper character width for a problematic character as follows:
+
+* Create a file `char_widths.txt` in the same directory as your
+  `config.ini` file. Matterhorn will look for a `char_widths.txt` file
+  in the same directories where it looks for the `config.ini` file.
+* In the file, add a line of text for each character of the following
+  form: `CHAR WIDTH`. For example, `💩 2` would configure Matterhorn
+  to treat `💩` as a two-column-wide character.
+* Restart Matterhorn.
+
+Note that lines with multiple characters to the left of the width
+will be ignored. Matterhorn does not support specifying the width of
+strings; only single code points are supported. That means that Unicode
+characters with selectors or that use combining characters will be
+ignored in the width file.
+
 # Using the Client
 
 The user interface has three main areas:
